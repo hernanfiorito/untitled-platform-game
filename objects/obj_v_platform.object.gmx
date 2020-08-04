@@ -52,22 +52,22 @@ plat_y_speed = 1;
             <kind>1</kind>
             <string>///Behaviour
     
-    
-//Start moving horizontally
+//Start moving vertically
 
 y += plat_y_speed;
 
-if(place_meeting(x, y - 1, obj_player) &amp;&amp; obj_player.player_y_spd &gt;= 0){
-	if(y &lt; yprevious){
-		obj_player.y = ceil(bbox_top - obj_player.sprite_height + plat_y_speed); //plat_y_speed (-)
-	}else{
-		obj_player.y = ceil(bbox_top - obj_player.sprite_height - plat_y_speed); //plat_y_speed (+)
-	}
-	obj_player.player_y_spd = plat_y_speed;
+
+if(place_meeting(x, y - 1, obj_player) &amp;&amp; obj_player.player_y_spd &gt; 0 &amp;&amp; !obj_player.is_falling_from_plat){
+    if(y &lt; yprevious){
+        obj_player.y = ceil(bbox_top - obj_player.sprite_height + plat_y_speed); //plat_y_speed (-)
+    }else{
+        obj_player.y = ceil(bbox_top - obj_player.sprite_height - plat_y_speed); //plat_y_speed (+)
+    }
+    obj_player.player_y_spd = plat_y_speed;
 }
 
 if(place_meeting(x, y + sign(plat_y_speed), obj_block) || place_meeting(x, y + sign(plat_y_speed), obj_bumper)){
-	plat_y_speed *= -1;
+    plat_y_speed *= -1;
 }
 </string>
           </argument>
@@ -86,5 +86,8 @@ if(place_meeting(x, y + sign(plat_y_speed), obj_block) || place_meeting(x, y + s
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
-  <PhysicsShapePoints/>
+  <PhysicsShapePoints>
+    <point>0,0</point>
+    <point>32,32</point>
+  </PhysicsShapePoints>
 </object>
