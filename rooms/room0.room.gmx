@@ -91,7 +91,7 @@
     <instance objName="obj_block" x="1984" y="1040" name="inst_B29BEE3C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_player" x="1184" y="976" name="inst_16A916E7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_bumper" x="1456" y="784" name="inst_E0411C04" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_v_platform" x="1456" y="848" name="inst_5F4DF2A0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_v_platform" x="1264" y="624" name="inst_5F4DF2A0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_h_platform" x="1152" y="832" name="inst_312C1BAC" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_diag_spring" x="1152" y="1024" name="inst_E050F6F2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_platform" x="1152" y="768" name="inst_E865B936" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -181,6 +181,7 @@
     <instance objName="obj_falling_platform" x="1840" y="768" name="inst_B56BC8D9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_falling_platform" x="1856" y="768" name="inst_035430CD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_diag_spring" x="2304" y="1024" name="inst_24BFF81B" locked="0" code="" scaleX="-1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_bumper" x="1264" y="560" name="inst_5241C2A0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
