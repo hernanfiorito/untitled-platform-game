@@ -1,0 +1,5 @@
+Bug list (so far)
+
+- Horizontal spring propulsion is variable (is more when presing the direction key contrary to propulsion direction).
+- Player makes a little "hop" when vertical moving platforms reaches the top
+- Player doesn't collision with obj_v_platform when falling from a platform (down + z) until they touch an obj_block
