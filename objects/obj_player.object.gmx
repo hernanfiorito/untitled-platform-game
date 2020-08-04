@@ -41,6 +41,7 @@ player_max_y_speed = 12; //Player's Max Y Speed
 player_jump_height = 12; //Player's Jump Height
 
 player_mov_state = 0;
+is_falling_from_plat = 0;
 
 //Physics Variables
 
@@ -102,37 +103,38 @@ current_v_platform = instance_place(x, y + 3, obj_v_platform);
 
 //Set ground/air acceleration and friction
 if (is_in_ground){
-current_acc = player_ground_acc;
-current_fric = player_ground_fric;
+    current_acc = player_ground_acc;
+    current_fric = player_ground_fric;
 }else{
-current_acc = player_air_acc;
-current_fric = player_air_fric;
+    current_acc = player_air_acc;
+    current_fric = player_air_fric;
 }
 
 //Set X speed
 if (player_mov_state != 0){
-player_x_spd = scr_inertia(player_x_spd, player_mov_state * player_max_x_speed, current_acc);
+    player_x_spd = scr_inertia(player_x_spd, player_mov_state * player_max_x_speed, current_acc);
 }else{
-player_x_spd = scr_inertia(player_x_spd, player_mov_state * player_max_x_speed, current_fric);
+    player_x_spd = scr_inertia(player_x_spd, player_mov_state * player_max_x_speed, current_fric);
 }
 
 //Set Y Speed
 if(!is_in_ground){
-//If the player is sliding on a wall
-if((is_col_x_left || is_col_x_right) &amp;&amp; player_mov_state != 0 &amp;&amp; player_y_spd &gt;= 0){
-player_y_spd = scr_inertia(player_y_spd, player_max_y_speed * 0.25, player_slide_gravity);
-}else{
-player_y_spd = scr_inertia(player_y_spd, player_max_y_speed, player_gravity);
-}
+    //If the player is sliding on a wall
+    if((is_col_x_left || is_col_x_right) &amp;&amp; player_mov_state != 0 &amp;&amp; player_y_spd &gt;= 0){
+        player_y_spd = scr_inertia(player_y_spd, player_max_y_speed * 0.25, player_slide_gravity);
+    }else{
+        player_y_spd = scr_inertia(player_y_spd, player_max_y_speed, player_gravity);
+    }
 }
 
 //Jump
 if (key_jump_press &amp;&amp; is_in_ground){
-    //Jump down from a platform (¿Known Bug? Sometimes the player would fall from a v_platform with presing z + down)
-    if(key_down &amp;&amp; (place_meeting(x, y + 1, obj_platform) || place_meeting(x, y + 1, obj_h_platform) 
-    || (place_meeting(x, y + 1, obj_v_platform) || place_meeting(x, y + 2, obj_v_platform) || place_meeting(x, y + 3, obj_v_platform)))
-    &amp;&amp; !place_meeting(x, y + 1, obj_block)){
-        y += 3;
+    //Jump down from a platform
+    if(key_down &amp;&amp; (scr_is_in_top_of(obj_platform) || scr_is_in_top_of(obj_h_platform) 
+    || (place_meeting(x, y + 1, obj_v_platform) || place_meeting(x, y + 2, obj_v_platform) || place_meeting(x, y + 3, obj_v_platform))) 
+    &amp;&amp; !scr_is_in_top_of(obj_block)){
+        y += 2;
+        is_falling_from_plat = 1;
     }else{
         player_y_spd = -player_max_y_speed;
     }
@@ -140,70 +142,71 @@ if (key_jump_press &amp;&amp; is_in_ground){
 
 //Variable Jump
 if(key_jump_release &amp;&amp; player_y_spd &lt; 0){
-player_y_spd *= 0.25;
+    player_y_spd *= 0.25;
 }
 
 //Wall Jump
 if(is_col_x_left &amp;&amp; key_jump_press &amp;&amp; !is_in_ground){
-if(player_mov_state &lt; 0){
-player_x_spd = player_max_x_speed * 0.5;
-player_y_spd = -player_jump_height * 0.75;
-}
+    if(player_mov_state &lt; 0){
+        player_x_spd = player_max_x_speed * 0.5;
+        player_y_spd = -player_jump_height * 0.75;
+    }
 }
 
 if(is_col_x_right &amp;&amp; key_jump_press &amp;&amp; !is_in_ground){
-if(player_mov_state &gt; 0){
-player_x_spd = -player_max_x_speed * 0.5;
-player_y_spd = -player_jump_height * 0.75;
-}
+    if(player_mov_state &gt; 0){
+        player_x_spd = -player_max_x_speed * 0.5;
+        player_y_spd = -player_jump_height * 0.75;
+    }
 }
 
 //Reset player and spikes
 if(key_reset){
-x = player_start_point_x;
-y = player_start_point_y;
+    x = player_start_point_x;
+    y = player_start_point_y;
 }
 
 //***COLLISION MANAGEMENT***
 
 //X Collision Check
 repeat(abs(player_x_spd)){
-//Slope Up
-if(place_meeting(x + sign(player_x_spd), y, obj_block) &amp;&amp; !place_meeting(x + sign(player_x_spd), y - 1, obj_block)){
-y--;
-}
-//Slope Down
-if(!place_meeting(x + sign(player_x_spd), y, obj_block) &amp;&amp; !place_meeting(x + sign(player_x_spd), y + 1, obj_block) &amp;&amp; place_meeting(x + sign(player_x_spd), y + 2, obj_block)){
-y++;
-}
-if(!place_meeting(x + sign(player_x_spd), y, obj_block)){
-x += sign(player_x_spd);
-}else{
-player_x_spd = 0;
-break;
-}
+    //Slope Up
+    if(place_meeting(x + sign(player_x_spd), y, obj_block) &amp;&amp; !place_meeting(x + sign(player_x_spd), y - 1, obj_block)){
+        y--;
+    }
+    //Slope Down
+    if(!place_meeting(x + sign(player_x_spd), y, obj_block) &amp;&amp; !place_meeting(x + sign(player_x_spd), y + 1, obj_block) &amp;&amp; place_meeting(x + sign(player_x_spd), y + 2, obj_block)){
+        y++;
+    }
+    if(!place_meeting(x + sign(player_x_spd), y, obj_block)){
+        x += sign(player_x_spd);
+    }else{
+        player_x_spd = 0;
+        break;
+    }
 }
 
 //Y Collition Check
 repeat(abs(player_y_spd)){
-if(place_meeting(x, y + sign(player_y_spd), obj_block)){
-player_y_spd = 0;
-break;
-}
-if(place_meeting(x, y + sign(player_y_spd), obj_platform) &amp;&amp; !place_meeting(x, y, obj_platform) &amp;&amp; player_y_spd &gt;= 0){
-player_y_spd = 0;
-break;
-}
-if(place_meeting(x, y + sign(player_y_spd), obj_h_platform) &amp;&amp; !place_meeting(x, y, obj_h_platform) &amp;&amp; player_y_spd &gt;= 0){
-player_y_spd = 0;
-break;
-}
-if(place_meeting(x, y + sign(player_y_spd), obj_falling_platform) &amp;&amp; !place_meeting(x, y, obj_falling_platform) &amp;&amp; player_y_spd &gt;= 0){
-player_y_spd = 0;
-break;
-}else{
-y += sign(player_y_spd);
-}
+    if(place_meeting(x, y + sign(player_y_spd), obj_block)){
+        is_falling_from_plat = 0;
+        player_y_spd = 0;
+        break;
+    }
+    if(place_meeting(x, y + sign(player_y_spd), obj_platform) &amp;&amp; !place_meeting(x, y, obj_platform) &amp;&amp; player_y_spd &gt;= 0){
+        player_y_spd = 0;
+        break;
+    }
+    if(place_meeting(x, y + sign(player_y_spd), obj_h_platform) &amp;&amp; !place_meeting(x, y, obj_h_platform) &amp;&amp; player_y_spd &gt;= 0){
+        player_y_spd = 0;
+        break;
+    }
+    if(place_meeting(x, y + sign(player_y_spd), obj_falling_platform) &amp;&amp; !place_meeting(x, y, obj_falling_platform) &amp;&amp; player_y_spd &gt;= 0){
+        player_y_spd = 0;
+        break;
+    }else{
+        y += sign(player_y_spd);
+    }
 }
 </string>
           </argument>
