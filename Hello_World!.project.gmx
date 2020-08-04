@@ -26,6 +26,7 @@
   <scripts name="scripts">
     <script>scripts\scr_inertia.gml</script>
     <script>scripts\scr_platform.gml</script>
+    <script>scripts\scr_is_in_top_of.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>
