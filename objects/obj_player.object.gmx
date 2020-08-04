@@ -131,10 +131,10 @@ if(!is_in_ground){
 if (key_jump_press &amp;&amp; is_in_ground){
     //Jump down from a platform
     if(key_down &amp;&amp; (scr_is_in_top_of(obj_platform) || scr_is_in_top_of(obj_h_platform) 
-    || (place_meeting(x, y + 1, obj_v_platform) || place_meeting(x, y + 2, obj_v_platform) || place_meeting(x, y + 3, obj_v_platform))) 
-    &amp;&amp; !scr_is_in_top_of(obj_block)){
-        y += 2;
-        is_falling_from_plat = 1;
+        || (place_meeting(x, y + 1, obj_v_platform) || place_meeting(x, y + 2, obj_v_platform) || place_meeting(x, y + 3, obj_v_platform)) 
+        &amp;&amp; !scr_is_in_top_of(obj_block))){
+            y += 2;
+            is_falling_from_plat = 1;
     }else{
         player_y_spd = -player_max_y_speed;
     }
@@ -194,14 +194,17 @@ repeat(abs(player_y_spd)){
         break;
     }
     if(place_meeting(x, y + sign(player_y_spd), obj_platform) &amp;&amp; !place_meeting(x, y, obj_platform) &amp;&amp; player_y_spd &gt;= 0){
+        is_falling_from_plat = 0;
         player_y_spd = 0;
         break;
     }
     if(place_meeting(x, y + sign(player_y_spd), obj_h_platform) &amp;&amp; !place_meeting(x, y, obj_h_platform) &amp;&amp; player_y_spd &gt;= 0){
+        is_falling_from_plat = 0;
         player_y_spd = 0;
         break;
     }
     if(place_meeting(x, y + sign(player_y_spd), obj_falling_platform) &amp;&amp; !place_meeting(x, y, obj_falling_platform) &amp;&amp; player_y_spd &gt;= 0){
+        is_falling_from_plat = 0;
         player_y_spd = 0;
         break;
     }else{
