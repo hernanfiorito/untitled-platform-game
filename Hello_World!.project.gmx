@@ -20,6 +20,7 @@
     <sprite>sprites\spr_spikes</sprite>
     <sprite>sprites\spr_v_spring</sprite>
     <sprite>sprites\spr_v_platform</sprite>
+    <sprite>sprites\spr_halfpipe</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -43,6 +44,7 @@
     <object>objects\obj_spikes</object>
     <object>objects\obj_v_spring</object>
     <object>objects\obj_platform</object>
+    <object>objects\obj_halfpipe</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
