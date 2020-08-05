@@ -171,7 +171,7 @@ if(key_reset){
 //X Collision Check
 repeat(abs(player_x_spd)){
     //Slope Up
-    if(place_meeting(x + sign(player_x_spd), y, obj_block) &amp;&amp; !place_meeting(x + sign(player_x_spd), y - 1, obj_block)){
+    if(place_meeting(x + sign(player_x_spd), y, obj_block) &amp;&amp; (!place_meeting(x + sign(player_x_spd), y - 1, obj_block) || !place_meeting(x + sign(player_x_spd), y - 2, obj_block))){
         y--;
     }
     //Slope Down
